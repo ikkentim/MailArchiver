@@ -8,9 +8,9 @@ namespace DecMailBundle
         [STAThread]
         private static void Main()
         {
-            if (Licences.SyncFusion != null)
+            if (Licenses.SyncFusion != null)
             {
-                Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Licences.SyncFusion);
+                Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Licenses.SyncFusion);
             }
 
             // To customize application configuration such as set high DPI settings or default font,
