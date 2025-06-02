@@ -174,7 +174,7 @@ public class Archiver
 
         switch (ext)
         {
-            case ".docx":
+            case ".docx" when Licences.SyncFusion != null:
                 using (var converted = ConvertDocxToPdf(copiedStream))
                 {
                     AddPdfToPdfDocument(converted, outputDocument);
