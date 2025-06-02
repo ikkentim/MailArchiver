@@ -49,17 +49,16 @@ namespace DecMailBundle
         {
             base.OnDragEnter(e);
 
-            // Check if the data is a file
-            if (e.Data?.GetDataPresent(DataFormats.FileDrop) ?? false)
+            // Only allow .eml files to be dragged in
+            if (e.Data?.GetDataPresent(DataFormats.FileDrop) == true)
             {
                 var files = (string[])e.Data.GetData(DataFormats.FileDrop)!;
-                if (files.Any(x => x.EndsWith(".eml", true, null)))
+                if (files.Any(f => f.EndsWith(".eml", StringComparison.OrdinalIgnoreCase)))
                 {
                     e.Effect = DragDropEffects.Copy;
                     return;
                 }
             }
-
             e.Effect = DragDropEffects.None;
         }
 
@@ -67,21 +66,19 @@ namespace DecMailBundle
         {
             base.OnDragDrop(e);
 
-            // Get the dropped files
-            if (e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (e.Data?.GetDataPresent(DataFormats.FileDrop) == true)
             {
                 BringToFrontAndFocus();
-
                 var paths = (string[])e.Data.GetData(DataFormats.FileDrop)!;
 
-                // Handle the files as needed
                 foreach (var path in paths)
                 {
                     try
                     {
-                        if (path.EndsWith(".eml", true, null))
+                        if (path.EndsWith(".eml", StringComparison.OrdinalIgnoreCase))
                         {
-                            if (HandleFile(path)) return;
+                            if (HandleFile(path))
+                                return;
                         }
                     }
                     catch (Exception ex)
@@ -94,7 +91,7 @@ namespace DecMailBundle
 
         private bool HandleFile(string path)
         {
-            if(!Directory.Exists(textBoxPath.Text))
+            if (!Directory.Exists(textBoxPath.Text))
             {
                 labelStatusText.Text = $"The folder '{textBoxPath.Text}' does not exist.";
                 return true;
@@ -104,8 +101,7 @@ namespace DecMailBundle
 
             _ = Task.Run(() =>
             {
-                string? result;
-
+                string result;
                 try
                 {
                     var archiver = new Archiver(textBoxPath.Text, checkBoxCurrentDate.Checked);
@@ -118,7 +114,7 @@ namespace DecMailBundle
 
                 labelStatusText.Invoke(() =>
                 {
-                    labelStatusText.Text = result; // Display the result in a label
+                    labelStatusText.Text = result;
                 });
             });
 
