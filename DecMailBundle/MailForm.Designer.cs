@@ -29,80 +29,208 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            labelStatusText = new Label();
-            textBoxPath = new TextBox();
-            buttonPathBrowse = new Button();
-            checkBoxCurrentDate = new CheckBox();
-            labelStatusLabel = new Label();
+            groupBox1 = new GroupBox();
+            webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
+            splitContainer1 = new SplitContainer();
+            groupBox2 = new GroupBox();
+            dataGridView1 = new DataGridView();
+            File = new DecMailBundle.FormComponents.FileColumn();
+            DateModified = new DataGridViewTextBoxColumn();
+            statusStrip1 = new StatusStrip();
+            labelStatus = new ToolStripStatusLabel();
+            menuStrip1 = new MenuStrip();
+            fileToolStripMenuItem = new ToolStripMenuItem();
+            openArchiveFolderToolStripMenuItem = new ToolStripMenuItem();
+            selectArchiveToolStripMenuItem = new ToolStripMenuItem();
+            groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)webView21).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+            splitContainer1.Panel1.SuspendLayout();
+            splitContainer1.Panel2.SuspendLayout();
+            splitContainer1.SuspendLayout();
+            groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            statusStrip1.SuspendLayout();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
-            // labelStatusText
+            // groupBox1
             // 
-            labelStatusText.AutoSize = true;
-            labelStatusText.Location = new Point(60, 28);
-            labelStatusText.Name = "labelStatusText";
-            labelStatusText.Size = new Size(39, 15);
-            labelStatusText.TabIndex = 0;
-            labelStatusText.Text = "Ready";
+            groupBox1.Controls.Add(webView21);
+            groupBox1.Dock = DockStyle.Fill;
+            groupBox1.Location = new Point(0, 0);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(651, 612);
+            groupBox1.TabIndex = 6;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Preview";
             // 
-            // textBoxPath
+            // webView21
             // 
-            textBoxPath.Location = new Point(12, 93);
-            textBoxPath.Name = "textBoxPath";
-            textBoxPath.Size = new Size(280, 23);
-            textBoxPath.TabIndex = 1;
+            webView21.AllowExternalDrop = true;
+            webView21.CreationProperties = null;
+            webView21.DefaultBackgroundColor = Color.White;
+            webView21.Dock = DockStyle.Fill;
+            webView21.Location = new Point(3, 19);
+            webView21.Name = "webView21";
+            webView21.Size = new Size(645, 590);
+            webView21.TabIndex = 0;
+            webView21.ZoomFactor = 1D;
             // 
-            // buttonPathBrowse
+            // splitContainer1
             // 
-            buttonPathBrowse.Location = new Point(298, 93);
-            buttonPathBrowse.Name = "buttonPathBrowse";
-            buttonPathBrowse.Size = new Size(75, 23);
-            buttonPathBrowse.TabIndex = 2;
-            buttonPathBrowse.Text = "Browse...";
-            buttonPathBrowse.UseVisualStyleBackColor = true;
+            splitContainer1.Dock = DockStyle.Fill;
+            splitContainer1.Location = new Point(0, 24);
+            splitContainer1.Name = "splitContainer1";
             // 
-            // checkBoxCurrentDate
+            // splitContainer1.Panel1
             // 
-            checkBoxCurrentDate.AutoSize = true;
-            checkBoxCurrentDate.Location = new Point(12, 122);
-            checkBoxCurrentDate.Name = "checkBoxCurrentDate";
-            checkBoxCurrentDate.Size = new Size(219, 19);
-            checkBoxCurrentDate.TabIndex = 3;
-            checkBoxCurrentDate.Text = "Use current date instead of mail date";
-            checkBoxCurrentDate.UseVisualStyleBackColor = true;
+            splitContainer1.Panel1.Controls.Add(groupBox2);
             // 
-            // labelStatusLabel
+            // splitContainer1.Panel2
             // 
-            labelStatusLabel.AutoSize = true;
-            labelStatusLabel.Location = new Point(12, 28);
-            labelStatusLabel.Name = "labelStatusLabel";
-            labelStatusLabel.Size = new Size(42, 15);
-            labelStatusLabel.TabIndex = 4;
-            labelStatusLabel.Text = "Status:";
+            splitContainer1.Panel2.Controls.Add(groupBox1);
+            splitContainer1.Size = new Size(1242, 612);
+            splitContainer1.SplitterDistance = 587;
+            splitContainer1.TabIndex = 7;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(dataGridView1);
+            groupBox2.Dock = DockStyle.Fill;
+            groupBox2.Location = new Point(0, 0);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(587, 612);
+            groupBox2.TabIndex = 0;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Archive";
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.AllowUserToResizeColumns = false;
+            dataGridView1.AllowUserToResizeRows = false;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { File, DateModified });
+            dataGridView1.Dock = DockStyle.Fill;
+            dataGridView1.Location = new Point(3, 19);
+            dataGridView1.MultiSelect = false;
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.Size = new Size(581, 590);
+            dataGridView1.TabIndex = 0;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            dataGridView1.CellMouseClick += dataGridView1_CellMouseClick;
+            dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
+            // 
+            // File
+            // 
+            File.DataPropertyName = "FileName";
+            File.HeaderText = "File";
+            File.Name = "File";
+            File.ReadOnly = true;
+            File.Resizable = DataGridViewTriState.True;
+            File.SortMode = DataGridViewColumnSortMode.Automatic;
+            // 
+            // DateModified
+            // 
+            DateModified.DataPropertyName = "DateModified";
+            DateModified.HeaderText = "Date Modified";
+            DateModified.Name = "DateModified";
+            DateModified.ReadOnly = true;
+            // 
+            // statusStrip1
+            // 
+            statusStrip1.Items.AddRange(new ToolStripItem[] { labelStatus });
+            statusStrip1.Location = new Point(0, 636);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(1242, 22);
+            statusStrip1.TabIndex = 8;
+            statusStrip1.Text = "statusStrip1";
+            // 
+            // labelStatus
+            // 
+            labelStatus.Name = "labelStatus";
+            labelStatus.Size = new Size(39, 17);
+            labelStatus.Text = "Ready";
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(1242, 24);
+            menuStrip1.TabIndex = 9;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openArchiveFolderToolStripMenuItem, selectArchiveToolStripMenuItem });
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new Size(37, 20);
+            fileToolStripMenuItem.Text = "File";
+            // 
+            // openArchiveFolderToolStripMenuItem
+            // 
+            openArchiveFolderToolStripMenuItem.Name = "openArchiveFolderToolStripMenuItem";
+            openArchiveFolderToolStripMenuItem.Size = new Size(178, 22);
+            openArchiveFolderToolStripMenuItem.Text = "Open archive folder";
+            openArchiveFolderToolStripMenuItem.Click += openArchiveFolderToolStripMenuItem_Click;
+            // 
+            // selectArchiveToolStripMenuItem
+            // 
+            selectArchiveToolStripMenuItem.Name = "selectArchiveToolStripMenuItem";
+            selectArchiveToolStripMenuItem.Size = new Size(178, 22);
+            selectArchiveToolStripMenuItem.Text = "Select archive...";
+            selectArchiveToolStripMenuItem.Click += selectArchiveToolStripMenuItem_Click;
             // 
             // MainForm
             // 
+            AllowDrop = true;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(650, 338);
-            Controls.Add(labelStatusLabel);
-            Controls.Add(checkBoxCurrentDate);
-            Controls.Add(buttonPathBrowse);
-            Controls.Add(textBoxPath);
-            Controls.Add(labelStatusText);
+            ClientSize = new Size(1242, 658);
+            Controls.Add(splitContainer1);
+            Controls.Add(statusStrip1);
+            Controls.Add(menuStrip1);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MainMenuStrip = menuStrip1;
             Name = "MainForm";
             Text = "Mail Archiver";
+            groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)webView21).EndInit();
+            splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+            splitContainer1.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private Label labelStatusText;
-        private TextBox textBoxPath;
-        private Button buttonPathBrowse;
-        private CheckBox checkBoxCurrentDate;
-        private Label labelStatusLabel;
+        private GroupBox groupBox1;
+        private SplitContainer splitContainer1;
+        private GroupBox groupBox2;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel labelStatus;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem selectArchiveToolStripMenuItem;
+        private DataGridView dataGridView1;
+        private ToolStripMenuItem openArchiveFolderToolStripMenuItem;
+        private FormComponents.FileColumn File;
+        private DataGridViewTextBoxColumn DateModified;
+        private Microsoft.Web.WebView2.WinForms.WebView2 webView21;
     }
 }

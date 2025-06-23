@@ -10,6 +10,15 @@ using PageSize = PdfSharpCore.PageSize;
 
 namespace DecMailBundle;
 
+public enum ArchiveResultStatus
+{
+    Created,
+    AlreadyExists,
+    Error
+}
+
+public record ArchiveResult(string Path, ArchiveResultStatus Status, string? ErrorMessage = null);
+
 /// <summary>
 /// Handles archiving of EML files to PDF format.
 /// </summary>
@@ -21,35 +30,44 @@ public class Archiver
         UseCurrentDate = useCurrentDate;
     }
 
-    private string PathRoot { get; }
+    public string PathRoot { get; }
     private bool UseCurrentDate { get; }
+
+    public bool RootExists() => Directory.Exists(PathRoot);
 
     /// <summary>
     /// Converts an EML file to a PDF and saves it in the archive.
     /// </summary>
-    public string ConvertEmlFileToPdfInArchive(string emlFilePath)
+    public ArchiveResult ConvertEmlFileToPdfInArchive(string emlFilePath)
     {
-        var message = MimeMessage.Load(emlFilePath);
-        var yearDir = EnsureYearDirectory(message.Date.Year);
-
-        var fileName = BuildFileName(message);
-        var outputFile = Path.Combine(yearDir, fileName);
-
-        if (File.Exists(outputFile))
+        try
         {
-            return outputFile + " already exists";
+            var message = MimeMessage.Load(emlFilePath);
+            var yearDir = EnsureYearDirectory(message.Date.Year);
+
+            var fileName = BuildFileName(message);
+            var outputFile = PathHelper.NormalizePath(Path.Combine(yearDir, fileName));
+
+            if (File.Exists(outputFile))
+            {
+                return new ArchiveResult(outputFile, ArchiveResultStatus.AlreadyExists);
+            }
+
+            var html = BuildEmailHtml(message);
+            using var emailBodyPdf = GeneratePdfFromEmailBody(html);
+            using var outputDocument = new PdfDocument();
+
+            AddPdfToPdfDocument(emailBodyPdf, outputDocument);
+            AddInlineFilesToPdf(message, outputDocument);
+            AddAttachmentsToPdf(message, outputDocument);
+
+            outputDocument.Save(outputFile);
+            return new ArchiveResult(outputFile, ArchiveResultStatus.Created);
         }
-
-        var html = BuildEmailHtml(message);
-        using var emailBodyPdf = GeneratePdfFromEmailBody(html);
-        using var outputDocument = new PdfDocument();
-
-        AddPdfToPdfDocument(emailBodyPdf, outputDocument);
-        AddInlineFilesToPdf(message, outputDocument);
-        AddAttachmentsToPdf(message, outputDocument);
-
-        outputDocument.Save(outputFile);
-        return outputFile;
+        catch (Exception ex)
+        {
+            return new ArchiveResult(emlFilePath, ArchiveResultStatus.Error, ex.Message);
+        }
     }
 
     /// <summary>
@@ -279,5 +297,11 @@ public class Archiver
         pdf.Save(pdfStream);
         pdfStream.Position = 0;
         return pdfStream;
+    }
+
+    public string GetCurrentYearPath()
+    {
+        var year = DateTime.Now.Year;
+        return PathHelper.NormalizePath(EnsureYearDirectory(year));
     }
 }
