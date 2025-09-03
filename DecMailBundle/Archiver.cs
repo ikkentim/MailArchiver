@@ -139,8 +139,16 @@ public class Archiver
             mimeStream.CopyTo(copiedStream);
             copiedStream.Position = 0;
 
-            AddFileToPdf(attachment.ContentDisposition?.FileName ?? "attachment", copiedStream, outputDocument);
+            AddFileToPdf(GetFileName(attachment), copiedStream, outputDocument);
         }
+    }
+
+    private static string GetFileName(MimeEntity attachment)
+    {
+        var name = attachment.ContentDisposition?.FileName;
+
+        name ??= attachment.ContentType.Name;
+        return name ?? "attachment";
     }
 
     /// <summary>

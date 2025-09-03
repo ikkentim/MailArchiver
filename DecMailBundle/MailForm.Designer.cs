@@ -60,7 +60,7 @@
             groupBox1.Dock = DockStyle.Fill;
             groupBox1.Location = new Point(0, 0);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(651, 612);
+            groupBox1.Size = new Size(463, 515);
             groupBox1.TabIndex = 6;
             groupBox1.TabStop = false;
             groupBox1.Text = "Preview";
@@ -73,7 +73,7 @@
             webView21.Dock = DockStyle.Fill;
             webView21.Location = new Point(3, 19);
             webView21.Name = "webView21";
-            webView21.Size = new Size(645, 590);
+            webView21.Size = new Size(457, 493);
             webView21.TabIndex = 0;
             webView21.ZoomFactor = 1D;
             // 
@@ -90,8 +90,8 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(groupBox1);
-            splitContainer1.Size = new Size(1242, 612);
-            splitContainer1.SplitterDistance = 587;
+            splitContainer1.Size = new Size(884, 515);
+            splitContainer1.SplitterDistance = 417;
             splitContainer1.TabIndex = 7;
             // 
             // groupBox2
@@ -100,7 +100,7 @@
             groupBox2.Dock = DockStyle.Fill;
             groupBox2.Location = new Point(0, 0);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(587, 612);
+            groupBox2.Size = new Size(417, 515);
             groupBox2.TabIndex = 0;
             groupBox2.TabStop = false;
             groupBox2.Text = "Archive";
@@ -122,7 +122,7 @@
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(581, 590);
+            dataGridView1.Size = new Size(411, 493);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellMouseClick += dataGridView1_CellMouseClick;
@@ -147,9 +147,9 @@
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { labelStatus });
-            statusStrip1.Location = new Point(0, 636);
+            statusStrip1.Location = new Point(0, 539);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(1242, 22);
+            statusStrip1.Size = new Size(884, 22);
             statusStrip1.TabIndex = 8;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -164,7 +164,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1242, 24);
+            menuStrip1.Size = new Size(884, 24);
             menuStrip1.TabIndex = 9;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -194,12 +194,13 @@
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1242, 658);
+            ClientSize = new Size(884, 561);
             Controls.Add(splitContainer1);
             Controls.Add(statusStrip1);
             Controls.Add(menuStrip1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
+            MinimumSize = new Size(550, 350);
             Name = "MainForm";
             Text = "Mail Archiver";
             groupBox1.ResumeLayout(false);

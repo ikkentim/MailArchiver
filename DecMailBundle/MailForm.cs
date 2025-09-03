@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using DecMailBundle.FormComponents;
 using System.Diagnostics;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace DecMailBundle
         private FileSystemWatcher? _watcher;
         private readonly List<string> _filesCreatedInSession = [];
         private BindingSource _archiveBindingSource = new();
+        private string? _selectedRow;
+        private bool _isUpdating;
 
         public static class AppServices
         {
@@ -23,10 +26,34 @@ namespace DecMailBundle
             InitializeComponent();
 
             dataGridView1.DataSource = _archiveBindingSource;
+            dataGridView1.Sorted += DataGridView1OnSorted;
 
             webView21.CoreWebView2InitializationCompleted += WebView21OnCoreWebView2InitializationCompleted;
             StartWatcher();
             ReloadArchive();
+
+        }
+
+        private void LoadColumnSorting()
+        {
+            if (AppSettings.Default.SortColumn is not null)
+            {
+                var sortColumn = dataGridView1.Columns[AppSettings.Default.SortColumn];
+                if (sortColumn != null)
+                {
+                    dataGridView1.Sort(sortColumn, AppSettings.Default.SortDirection == "Ascending" ? ListSortDirection.Ascending : ListSortDirection.Descending);
+                }
+            }
+        }
+
+        private void DataGridView1OnSorted(object? sender, EventArgs e)
+        {
+            var sortName = dataGridView1.SortedColumn?.Name;
+            var sortDirection = dataGridView1.SortOrder;
+
+            AppSettings.Default.SortColumn = sortName;
+            AppSettings.Default.SortDirection = sortDirection == SortOrder.Ascending ? "Ascending" : "Descending";
+            AppSettings.Default.Save();
         }
 
         private void WebView21OnCoreWebView2InitializationCompleted(object? sender, CoreWebView2InitializationCompletedEventArgs e)
@@ -115,7 +142,7 @@ namespace DecMailBundle
 
             void Work()
             {
-
+                _isUpdating = true;
                 var dir = new DirectoryInfo(AppServices.Archiver.GetCurrentYearPath());
 
                 var files = dir.GetFiles("*.pdf").Select(p =>
@@ -124,6 +151,22 @@ namespace DecMailBundle
                 }).ToList();
 
                 _archiveBindingSource.DataSource = new SortableBindingList<FileEntry>(files);
+
+                LoadColumnSorting();
+
+                _isUpdating = false;
+
+                if (_selectedRow is not null)
+                {
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        if (row.Cells["File"].Value as string == _selectedRow)
+                        {
+                            row.Selected = true;
+                            break;
+                        }
+                    }
+                }
             }
         }
 
@@ -281,10 +324,20 @@ namespace DecMailBundle
             if(dataGridView1.SelectedRows.Count > 0 && dataGridView1.SelectedRows[0].DataBoundItem is FileEntry entry)
             {
                 webView21.Source = new Uri(entry.FilePath);
+
+                if (!_isUpdating)
+                {
+                    _selectedRow = entry.FileName;
+                }
             }
             else
             {
                 webView21.Source = new Uri("about:blank");
+
+                if (!_isUpdating)
+                {
+                    _selectedRow = null;
+                }
             }
         }
     }
