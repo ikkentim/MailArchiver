@@ -1,10 +1,9 @@
 using System.ComponentModel;
 using DecMailBundle.FormComponents;
 using System.Diagnostics;
-using System.Linq;
 using DecMailBundle.Shell;
 using Microsoft.Web.WebView2.Core;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Microsoft.Web.WebView2.WinForms;
 
 namespace DecMailBundle
 {
@@ -27,6 +26,11 @@ namespace DecMailBundle
 
             dataGridView1.DataSource = _archiveBindingSource;
             dataGridView1.Sorted += DataGridView1OnSorted;
+
+            webView21.CreationProperties = new CoreWebView2CreationProperties
+            {
+                UserDataFolder = AppDataPath.WebViewData
+            };
 
             webView21.CoreWebView2InitializationCompleted += WebView21OnCoreWebView2InitializationCompleted;
             StartWatcher();
@@ -64,6 +68,7 @@ namespace DecMailBundle
             }
 
             webView21.CoreWebView2.Settings.AreDevToolsEnabled = false;
+            webView21.CoreWebView2.Settings.IsScriptEnabled = false;
             webView21.AllowExternalDrop = false;
             webView21.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
             webView21.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
@@ -143,6 +148,9 @@ namespace DecMailBundle
             void Work()
             {
                 _isUpdating = true;
+
+                Text = $"Mail Archiver - {AppServices.Archiver.PathRoot}";
+
                 var dir = new DirectoryInfo(AppServices.Archiver.GetCurrentYearPath());
 
                 var files = dir.GetFiles("*.pdf").Select(p =>
@@ -181,9 +189,9 @@ namespace DecMailBundle
 
             ReportStatus("Processing...");
 
-            _ = Task.Run(() =>
+            _ = Task.Run(async () =>
             {
-                var result = AppServices.Archiver.ConvertEmlFileToPdfInArchive(path);
+                var result = await AppServices.Archiver.AddToArchive(path);
 
                 var fileName = Path.GetFileName(result.Path);
                 var message = result.Status switch
